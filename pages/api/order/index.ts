@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             items: [
                 {
                     id: "Sound system",
-                    title: "Dummy Title",
+                    title: req.body.title,
                     description: "Dummy description",
                     picture_url: "http://www.myapp.com/myimage.jpg",
                     category_id: "car_electronics",
