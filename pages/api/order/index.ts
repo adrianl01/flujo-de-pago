@@ -40,6 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 failure: "http://test.com/failure"
             },
             external_reference: order.id,
+            notification_url: "https://flujo-de-pago-git-main-adrians-projects-c7d56fd4.vercel.app/api/webhooks/mercadopago"
         }
     })
     res.send({ url: resPref.init_point })
