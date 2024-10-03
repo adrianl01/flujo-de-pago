@@ -1,9 +1,16 @@
 import { firestore } from "../firestore";
 const collection = firestore.collection("orders");
 
+type OrderData = {
+    additionalInfo: "",
+    status: "pending" | "paid" | "failed",
+    productId: "",
+    userId: ""
+}
+
 export class Order {
     ref: FirebaseFirestore.DocumentReference;
-    data: any
+    data: OrderData
     id: string
     constructor(id) {
         this.id = id
@@ -11,17 +18,16 @@ export class Order {
     }
     async pull() {
         const snap = await this.ref.get()
-        this.data = snap.data()
+        this.data = snap.data() as any
     }
     async push() {
         this.ref.update(this.data)
     }
 
     static async createNewOrder(newOrderdata = {}) {
-        console.log(newOrderdata)
         const newOrderSnap = await collection.add(newOrderdata)
         const newOrder = new Order(newOrderSnap.id)
-        newOrder.data = newOrderdata
+        newOrder.data = newOrderdata as any
         return newOrder
     }
 }

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { generateOrder } from "../../../lib/mercadoPago";
+import { generatePreference } from "../../../lib/mercadoPago";
 import parseToken from "parse-bearer-token"
 import { User } from "../../../lib/users";
 import { Order } from "../../../lib/models/order";
@@ -8,17 +8,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { productId } = req.query as any
     const token = parseToken(req) as any;
     const decodedToken = decode(token) as any
-    console.log("token:", decodedToken)
     if (!token) { res.status(401) }
     const order = await Order.createNewOrder({
         additionalInfo: req.body,
         productId,
-        userId: decodedToken.userId
+        userId: decodedToken.userId,
+        status: "pending"
     })
+
+    console.log("order:", order.id)
 
     const user = new User(decodedToken.userId)
     user.pull()
-    // const resOrder = await generateOrder({ body: req.body as any })
-    res.json(order.data)
+    const resPref = await generatePreference({
+        body: {
+            items: [
+                {
+                    id: "Sound system",
+                    title: "Dummy Title",
+                    description: "Dummy description",
+                    picture_url: "http://www.myapp.com/myimage.jpg",
+                    category_id: "car_electronics",
+                    quantity: 1,
+                    currency_id: "ARS",
+                    unit_price: 10
+                }
+            ],
+            back_urls: {
+                success: "http://test.com/success",
+                pending: "http://test.com/pending",
+                failure: "http://test.com/failure"
+            },
+            external_reference: order.id,
+        }
+    })
+    res.send({ url: resPref.init_point })
 }
 
