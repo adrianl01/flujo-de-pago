@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import parseToken from "parse-bearer-token"
 import { decode } from "jsonwebtoken";
-import { User } from "../../lib/users";
+import { getUserById } from "../../controllers/users";
 
 async function handler(req: NextApiRequest, res: NextApiResponse, decodedToken) {
-    const user = new User(decodedToken.userId)
-    await user.pull()
-    res.send(user.data)
+    const user = getUserById(decodedToken.userId)
+    res.send(user)
 }
 
 function authMiddleware(callback) {

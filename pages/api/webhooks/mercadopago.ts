@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getMerchOrder } from "../../../lib/mercadoPago";
-import { Order } from "../../../lib/models/order";
+import { Order } from "../../../models/order";
 
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {

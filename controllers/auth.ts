@@ -1,5 +1,5 @@
-import { User } from "../users";
-import { Auth } from "../auth";
+import { User } from "../models/users";
+import { Auth } from "../models/auth";
 import gen from "random-seed";
 import { addMinutes } from "date-fns";
 var seed = "asdada";

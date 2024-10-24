@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { compareAsc } from "date-fns";
 
 import { generate } from "../../lib/jwt";
-import { Auth } from "../../lib/auth";
+import { Auth } from "../../models/auth";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     const { email } = req.body as any;

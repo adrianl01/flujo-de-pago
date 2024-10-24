@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { generatePreference } from "../../../lib/mercadoPago";
 import parseToken from "parse-bearer-token"
-import { User } from "../../../lib/users";
-import { Order } from "../../../lib/models/order";
+import { User } from "../../../models/users";
+import { Order } from "../../../models/order";
 import { decode } from "../../../lib/jwt";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { productId } = req.query as any
